@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Drone Police App</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" rel="stylesheet" >
+		<link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+		<link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+	</head>
+	<body>
+		<div class = 'container'>
+			{% import 'header.html' as header %}
+			<div class='header'>
+				<nav>
+					{{ header.navigation(options.menu, options.current_url, 'nav nav-pills pull-right') }}
+				</nav>
+				<h3 class='text-muted'>DronePolice app {{options.current_url}} </h3>
+			</div>
+			<div class='row marketing'>
+				<div class='col-lg-12'>
+					<div id="map"></div>
+				</div>
+				<div class='col-lg-12'>
+					<form class="form-inline" action="/track" method="POST">
+						<div class='form-group'>
+							<input class='form-control' type="text" name="lat" id="lat" placeholder="Latitude" value="" />
+						</div>
+						<div class='form-group'>
+							<input class='form-control' type="text" name="lon" id="lon" placeholder="Longitude" value="" />
+						</div>
+						<button type="submit" class="btn btn-default">Go</button>
+					</form>
+				</div>
+			</div>
+			<footer class='footer'>
+				<p>&copy; priestly</p>
+			</div>
+		</div>
+		{% include 'bottom-scripts.html' %}
+		<script type="text/javascript" charset="utf-8">
+			L.mapbox.accessToken = 'pk.eyJ1IjoicHJpZXN0bHkiLCJhIjoiY2trNHpqMTRjMDBudzJ3b2FmdXdsMzR0ZSJ9.phqS2Kcb9mS7XfcpXvO2iA';
+			var currentCoords = [{options.current_coords[0] }}, {{ options.current_coords[1] }}];
+			var homeCoords = [{{ options.home_coords[0] }}, {{ options.home_coords[1] }}];
+			var homeMarker = L.marker(homeCoords, {
+				icon: L.mapbox.marker.icon({
+					'marker-size': 'small',
+					'marker-symbol': 'building',
+					'marker-color': '#fa0'
+				})
+			});
+			var vehicleMarker = function(location){
+				return L.marker(location, {
+					'marker-size': 'large',
+					'marker-symbol': 'heliport',
+					'marker-color': '#fa0'
+				})
+			}
+			var map = L.mapbox.map('map', {{options.mapid}});
+			var userMarker = L.marker([0, 0], {
+				icon: L.mapbox.marker.icon({
+					'marker-color': '#f86767'
+				}),
+				draggable: true
+			});
+
+			homeMarker.addTo(map);
+			vehicleMarker(currentCoords).addTo(map);
+			userMarker.addTo(map);
+			map.setView(homeCoords, {{ options.zoom }});
+			map.on('click', function(event) {
+				userMarker.setLatLng(event.latlng)
+				$('#lat').val(event.latlng.lat);
+				$('#lon').val(event.latlng.lng);
+			});
+		
+		</script>
+	</body>
+</html>

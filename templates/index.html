@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Drone Police App</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css" rel="stylesheet" >
+		<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' >
+        <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+
+		<link  rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<div class='container'>
+			{% macro list_item(name, location='#', active=False) -%}
+	            <li class='{{ 'active' if active else '' }}'>
+		            <a href="{{location}}">{{name}}</a>
+	        </li>
+            {%- endmacro %}
+
+            {% macro navigation(list, current_url, class='') -%}
+	            <ul class='{{class}}'>
+		    {%- for item in list %}
+			    {{ list_item(item.name, item.location, (item.location == current_url)) }}
+		    {%- endfor %}
+	            </ul>
+            {%- endmacro %}
+			
+			<div class='header'>
+				<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+                    <div class="container">
+                        <a href="index.html" class="navbar-brand">Drone Police</a>
+            
+                        <div class="collpase navbar-collapse" id="ftco-nav">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active"><a href="#" class="nav-link">Home</a></li>
+                                <li class="nav-item"><a href="track" class="nav-link">track</a></li>
+                                <li class="nav-item"><a href="command" class="nav-link">command</a></li>
+                            </ul> 
+                        </div>
+                    </div>
+                </nav>
+				<h3 class='text-muted'>WE ARE HERE TO HELP </h3>
+			</div>
+			<div class='jumbotron'>
+				<h1>DRONE POLICE</h1>
+				<p class='lead'>
+					Track and Command a drone from a web app
+				</p>
+				<p>
+					<a class='btn btn-lg btn-success' href='track'>Track</a>
+					<a class='btn btn-lg btn-info' href='command'>Command</a>
+				</p>
+			</div>
+			<footer class='footer'>
+                <p>&copy;PRIESTLY RAJ.</p>
+            </footer>    
+			</div>
+		</div>
+		{% include 'bottom-scripts.html' %}
+	</body>
+</html>

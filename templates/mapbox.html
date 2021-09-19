@@ -1,0 +1,11 @@
+{% macro static_map(options, coords) -%}
+	<img src="http://api.tiles.mapbox.com/v4/{{ options.mapid }}/{{ coords[1] }},{{ coords[0] }},{{ options.zoom }}/{{ options.width }}x{{ options.height }}.{{ options.format }}?access_token="pk.eyJ1Ijoia2V2aW4zZHIiLCJhIjoiY2lrOGoxN2s2MDJzYnR6a3drbTYwdGxmMiJ9.bv5u7QgmcJd6dZfLDGoykw" />
+{%- endmacro %}
+
+{% macro static_map_with_marker(options, coords, marker_coords) -%}
+	<img src="http://api.tiles.mapbox.com/v4/{{ options.mapid }}/{{ marker_string(marker_coords) }}/{{ coords[1] }},{{ coords[0] }},{{ options.zoom }}/{{ options.width }}x{{ options.height }}.{{ options.format }}?access_token="pk.eyJ1Ijoia2V2aW4zZHIiLCJhIjoiY2lrOGoxN2s2MDJzYnR6a3drbTYwdGxmMiJ9.bv5u7QgmcJd6dZfLDGoykw" />
+{%- endmacro %}
+
+{% macro marker_string(coords, label='heliport', color='f86767') -%}
+	pin-m-{{ label }}+{{ color }}({{ coords[1] }},{{ coords[0] }})
+{%- endmacro %}
